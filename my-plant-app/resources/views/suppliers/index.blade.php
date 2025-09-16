@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,12 +9,14 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>All plants</h1>
+  <h1>Suppliers</h1>
     <ul>
-        @foreach($plants as $plant)
-            <li>{{ $plant->name }} - {{ $plant->description }}</li>
+        @foreach($suppliers as $supplier)
+            <li>{{ $supplier->plantname }} - {{ $supplier->supplier }}</li>
         @endforeach
     </ul>
-  
+
 </body>
 </html>
+
+
