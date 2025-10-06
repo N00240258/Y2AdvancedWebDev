@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facade\Storage;
 
 class CourseController extends Controller
 {
@@ -21,7 +22,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('courses.create');
     }
 
     /**
@@ -29,7 +30,32 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validates input
+        $request->validate([
+            'courseCode' => 'required|max:5',
+            'title' => 'required',
+            'description' => 'required',
+            'points' => 'required|integer|max:2048',
+            'years' => 'required|integer|max:8',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        // checks if the image is uploaded then puts the current time on the name to make it unique from other images
+        if ($request->hasFile('image')) {
+            $imageName = time().".".$request->image->extension();
+            $request->image->move(public_path("images\courses2"), $imageName);
+        }
+
+        Course::create([
+            'courseCode' => $request->courseCode,
+            'title' => $request->title,
+            'description' => $request->description,
+            'points' => $request->points,
+            'years' => $request->year,
+            'image' => $imageName
+        ]);
+
+        return to_route("courses.index")->with('success', 'Course created successfully!');
     }
 
     /**
@@ -37,7 +63,7 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        //
+        return view('courses.show')->with('course', $course);
     }
 
     /**

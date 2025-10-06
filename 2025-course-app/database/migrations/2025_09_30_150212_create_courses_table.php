@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('points');
             $table->integer('years');
             $table->string('image');
+            $table->timestamps();
             });
     }
 
