@@ -43,7 +43,7 @@ class CourseController extends Controller
         // checks if the image is uploaded then puts the current time on the name to make it unique from other images
         if ($request->hasFile('image')) {
             $imageName = time().".".$request->image->extension();
-            $request->image->move(public_path("images\courses2"), $imageName);
+            $request->image->move(public_path("images/courses"), $imageName);
         }
 
         Course::create([
@@ -51,7 +51,7 @@ class CourseController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'points' => $request->points,
-            'years' => $request->year,
+            'years' => $request->years,
             'image' => $imageName
         ]);
 
@@ -71,7 +71,7 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-        //
+        return view('courses.edit')->with('course', $course);
     }
 
     /**
@@ -79,7 +79,33 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+        //validates input
+        $request->validate([
+            'courseCode' => 'required|max:5',
+            'title' => 'required',
+            'description' => 'required',
+            'points' => 'required|integer|max:2048',
+            'years' => 'required|integer|max:8',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        // checks if the image is uploaded then puts the current time on the name to make it unique from other images
+        if ($request->hasFile('image')) {
+            $imageName = time().".".$request->image->extension();
+            $request->image->move(public_path("images/courses"), $imageName);
+            $course->image = $imageName;
+        }
+
+        $course->update([
+            'courseCode' => $request->courseCode,
+            'title' => $request->title,
+            'description' => $request->description,
+            'points' => $request->points,
+            'years' => $request->years,
+            'image' => $course->image
+        ]);
+
+        return to_route("courses.index")->with('success', 'Course updated successfully!');
     }
 
     /**
@@ -87,6 +113,8 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        //
+        $course->delete();
+
+        return to_route("courses.index")->with('success', 'Course deleted.');
     }
 }

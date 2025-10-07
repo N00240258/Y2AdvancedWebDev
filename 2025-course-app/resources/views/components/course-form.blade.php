@@ -1,4 +1,4 @@
-@props(['action', 'method'])
+@props(['action', 'method', 'course'])
 
 
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
@@ -63,7 +63,7 @@
 
     @isset($course->image)
         <div class="mb-4">
-            <img src="{{ asset($course->image) }}" alt="course cover" class="w-24 h-32 object-cover">
+            <img src="{{ asset("images/courses/" . $course->image) }}" alt="course cover" class="w-24 h-32 object-cover">
         </div>
     @endisset
 

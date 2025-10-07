@@ -16,7 +16,7 @@
         Required Points: {{ $points }}
     </h2>
     <h2 class="text-gray-600 text-sm italic mb-4" style="font-size: 1.2rem">
-        Duration: {{ $years }} year(s);
+        Duration: {{ $years }} year(s)
     </h2>
 
     <h2 class="text-gray-500 text-sm italic mb-4" style="font-size: 1rem">
