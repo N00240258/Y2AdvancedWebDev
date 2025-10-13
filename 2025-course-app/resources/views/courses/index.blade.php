@@ -17,15 +17,19 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($courses as $course)
                         <div class="border p-4 rounded-lg shadow-md">
+                            {{-- links the course card/border to the show --}}
                             <a href="{{route("courses.show", $course) }}">
+                                {{-- calls the course card component and gets the course title and image to display on the index --}}
                                 <x-course-card :title="$course->title"  :image="$course->image"/>
                             </a>
 
                             <div class="mt-4 flex space-x-2">
-                                <a href="{{route("courses.edit", $course)}}"     class="text-gray-600 bg-orange-300 hover:bg-orange-700  font-bold py-2 px-4 rounded">
+                                {{-- link to the course edit form --}}
+                                <a href="{{route("courses.edit", $course)}}" class="text-gray-600 bg-orange-300 hover:bg-orange-700  font-bold py-2 px-4 rounded">
                                     Edit
                                 </a>
 
+                                {{-- delete button to delete a course which puts a confirmation pop up one the screen --}}
                                 <form action="{{route('courses.destroy', $course)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this book?');">
                                     @csrf
                                     @method('DELETE')

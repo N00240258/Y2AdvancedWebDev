@@ -13,6 +13,7 @@ class CourseController extends Controller
      */
     public function index()
     {
+        // gets all courses from the database and then get sent back to index to display them all
         $courses = Course::all();
         return view("courses.index", compact("courses"));
     }
@@ -32,6 +33,7 @@ class CourseController extends Controller
     {
         //validates input
         $request->validate([
+            // required makes sure that there is an input in the field.
             'courseCode' => 'required|max:5',
             'title' => 'required',
             'description' => 'required',
@@ -40,12 +42,14 @@ class CourseController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // checks if the image is uploaded then puts the current time on the name to make it unique from other images
+        // checks if an image is uploaded then gets the current time and extension of the image(jpg/png/etc.) and puts them together to make a unique name for the image
         if ($request->hasFile('image')) {
             $imageName = time().".".$request->image->extension();
+            // gets the image and moves it to the specified public folder with the image name generated
             $request->image->move(public_path("images/courses"), $imageName);
         }
 
+        // gets the information entered into the form and sends it off into the database to get added in
         Course::create([
             'courseCode' => $request->courseCode,
             'title' => $request->title,
@@ -54,6 +58,8 @@ class CourseController extends Controller
             'years' => $request->years,
             'image' => $imageName
         ]);
+
+                // returns to index with a pop up letting you know its
 
         return to_route("courses.index")->with('success', 'Course created successfully!');
     }
@@ -79,7 +85,7 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //validates input
+        // mostly does the same thing as create
         $request->validate([
             'courseCode' => 'required|max:5',
             'title' => 'required',
@@ -89,7 +95,6 @@ class CourseController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // checks if the image is uploaded then puts the current time on the name to make it unique from other images
         if ($request->hasFile('image')) {
             $imageName = time().".".$request->image->extension();
             $request->image->move(public_path("images/courses"), $imageName);

@@ -10,6 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h3 class="font-semibold text-lg mb-4">Edit a course</h3>
+                    {{-- calls the course form with the course variable so its able to fill in the fields with data from the database --}}
                     <x-course-form
                         :action="route('courses.update', $course)"
                         :method="'PUT'"
