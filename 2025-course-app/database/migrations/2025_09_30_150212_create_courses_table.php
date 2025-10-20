@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // creates the course table is phpMyAdmin with certain requirements if stated like "length" in string course code
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('courseCode', length: 5);

@@ -13,19 +13,27 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <h3 class="font-semibold text-lg mb-4"> List of Courses:</h3>
+                    <div class="flex justify-between items-center pb-6">
+                        <h3 style="font-size: 1.5rem" class="font-bold text-xl mb-4"> List of Courses:</h3>
+                        <div>
+                            <form action="{{ route("courses.index")}}" method="GET">
+                                    <input name="search" placeholder="Search a course..." class="form-control w-100 rounded-lg" type="text">
+                                    <button class="btn bg-slate-700 hover:bg-slate-600 active:bg-slate-800 text-white rounded-lg px-5 py-2.5 me-2 mb-2 ">Search</button>
+                            </form>
+                        </div>
+                    </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($courses as $course)
-                        <div class="border p-4 rounded-lg shadow-md">
+                        <div class="border py-2 rounded-lg shadow-lg hover:bg-gray-200 hover:shadow-xl ">
                             {{-- links the course card/border to the show --}}
                             <a href="{{route("courses.show", $course) }}">
                                 {{-- calls the course card component and gets the course title and image to display on the index --}}
                                 <x-course-card :title="$course->title"  :image="$course->image"/>
                             </a>
 
-                            <div class="mt-4 flex space-x-2">
+                            <div class="px-6 pb-3 flex justify-between ">
                                 {{-- link to the course edit form --}}
-                                <a href="{{route("courses.edit", $course)}}" class="text-gray-600 bg-orange-300 hover:bg-orange-700  font-bold py-2 px-4 rounded">
+                                <a href="{{route("courses.edit", $course)}}" class="text-white bg-yellow-400 hover:bg-yellow-500 font-bold py-2 px-4 rounded">
                                     Edit
                                 </a>
 
@@ -33,7 +41,7 @@
                                 <form action="{{route('courses.destroy', $course)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this book?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-gray-600 font-bold py-2 px-4 rounded">
+                                    <button type="submit" class="text-white bg-red-600 hover:bg-red-700 font-bold py-2 px-4 rounded">
                                         Delete
                                     </button>
                                 </form>

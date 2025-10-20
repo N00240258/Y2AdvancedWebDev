@@ -11,10 +11,16 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // gets all courses from the database and then get sent back to index to display them all
-        $courses = Course::all();
+        // gets the content from the search box and tells the database to get the titles that are similar to the phrase typed in or displays all the courses if nothing is there
+        $search = $request->input("search");
+        if($search){
+            $courses = Course::where("title", "like", "%" . $search . "%")->get() ;
+        }else {
+            $courses = Course::all();
+        }
+
         return view("courses.index", compact("courses"));
     }
 
