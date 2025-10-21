@@ -15,6 +15,9 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 
+
+    // whenever you are redirected to "/course" the course controller will get the index fucntion to show all the courses on the screen.
+    // this is then named as "courses.index" so whenever a redirect button is created you can name it as that or another name to specify where the redirect will bring you
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
     Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');

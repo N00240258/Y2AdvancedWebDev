@@ -65,7 +65,7 @@ class CourseController extends Controller
             'image' => $imageName
         ]);
 
-                // returns to index with a pop up letting you know its
+        // returns to index with a pop up letting you know its created
 
         return to_route("courses.index")->with('success', 'Course created successfully!');
     }
