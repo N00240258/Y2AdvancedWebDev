@@ -18,7 +18,7 @@
                         <div>
                             <form action="{{ route("courses.index")}}" method="GET">
                                 <input name="search" placeholder="Search a course..." class="form-control w-100 rounded-lg" type="text">
-                                <button class="btn bg-slate-700 hover:bg-slate-600 active:bg-slate-800 text-white rounded-lg px-5 py-2.5 me-2 mb-2 ">Search</button>
+                                <button class="btn bg-slate-700 hover:bg-slate-600 active:bg-slate-800 text-white rounded-lg px-5 py-2.5 me-2 mb-2">Search</button>
                             </form>
                         </div>
                     </div>

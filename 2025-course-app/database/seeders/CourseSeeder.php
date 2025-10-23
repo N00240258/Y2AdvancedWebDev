@@ -76,9 +76,7 @@ class CourseSeeder extends Seeder{
             [
                 'courseCode' => "NC030",
                 'title' => "Early Childhood Education and Care",
-                'description' => "NCI's BA (Honours) in Early Childhood Education and Care provides a firm foundation in Early Childhood Education and Care (ECEC) to practice in a range of early childhood settings. During the course you will cover a range of subjects to gain a deep understanding of the holistic learning and development of babies and children from birth to six years of age. A specialised Education Play Lab at NCI provides opportunities for 'hands on' student learning.
-
-This is a full-time course delivered in the daytime.",
+                'description' => "NCI's BA (Honours) in Early Childhood Education and Care provides a firm foundation in Early Childhood Education and Care (ECEC) to practice in a range of early childhood settings. During the course you will cover a range of subjects to gain a deep understanding of the holistic learning and development of babies and children from birth to six years of age. A specialised Education Play Lab at NCI provides opportunities for 'hands on' student learning. This is a full-time course delivered in the daytime.",
                 'points' => "230",
                 'years' => "4",
                 'image' => "NCIEarlyChildhood.jpg"
