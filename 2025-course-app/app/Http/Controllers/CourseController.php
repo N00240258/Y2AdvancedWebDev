@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facade\Storage;
 
 class CourseController extends Controller
@@ -29,6 +31,9 @@ class CourseController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('courses.index')->with('error', 'Access denied.');
+        }
         return view('courses.create');
     }
 

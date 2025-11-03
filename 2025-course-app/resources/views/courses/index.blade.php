@@ -9,6 +9,10 @@
         {{session('success')}}
     </x-alert-success>
 
+    <x-alert-error>
+        {{session('error')}}
+    </x-alert-error>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -31,6 +35,7 @@
                                 <x-course-card :title="$course->title"  :image="$course->image"/>
                             </a>
 
+                            @if(auth()->user()->role === "admin")
                             <div class="px-6 pb-3 flex justify-between ">
                                 {{-- link to the course edit form --}}
                                 <a href="{{route("courses.edit", $course)}}" class="text-white bg-yellow-400 hover:bg-yellow-500 font-bold py-2 px-4 rounded">
@@ -46,6 +51,7 @@
                                     </button>
                                 </form>
                             </div>
+                            @endif
                         </div>
                         @endforeach
                     </div>

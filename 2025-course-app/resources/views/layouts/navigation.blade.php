@@ -18,10 +18,11 @@
                     <x-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.index')">
                         {{ __('Courses') }}
                     </x-nav-link>
+                    @if(auth()->user()->role === "admin")
                     <x-nav-link :href="route('courses.create')" :active="request()->routeIs('courses.create')">
                         {{ __('Create') }}
                     </x-nav-link>
-
+                    @endif
                 </div>
             </div>
 
