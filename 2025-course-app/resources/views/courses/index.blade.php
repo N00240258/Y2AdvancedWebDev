@@ -35,10 +35,10 @@
                                 <x-course-card :title="$course->title"  :image="$course->image"/>
                             </a>
 
-                            @if(auth()->user()->role === "admin")
+                            {{-- @if(auth()->user()->role === "admin") --}}
                             <div class="px-6 pb-3 flex justify-between ">
                                 {{-- link to the course edit form --}}
-                                <a href="{{route("courses.edit", $course)}}" class="text-white bg-yellow-400 hover:bg-yellow-500 font-bold py-2 px-4 rounded">
+                                <a href="{{route('courses.edit', $course)}}" class="text-white bg-yellow-400 hover:bg-yellow-500 font-bold py-2 px-4 rounded">
                                     Edit
                                 </a>
 
@@ -51,7 +51,7 @@
                                     </button>
                                 </form>
                             </div>
-                            @endif
+                            {{-- @endif --}}
                         </div>
                         @endforeach
                     </div>

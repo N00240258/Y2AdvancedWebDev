@@ -18,6 +18,25 @@
                         :years="$course->years"
                         :courseCode="$course->courseCode"
                     />
+
+                    <a href="{{route('students.create', $course)}}" class="text-white bg-purple-400 hover:bg-purple-500 font-bold py-2 px-4 rounded">
+                        Enroll
+                    </a>
+
+                    <h4 class="font-sembold text-m1 mt-3">Students</h4>
+                    @if($course->students->isEmpty())
+                        <p class="text-gray-600">No students yet.</p>
+                    @else
+                        <ul class="mt-4 space-y-4">
+                            @foreach($course->students as $student)
+                                <li class="bg-gray-100 p-4 rounded-lg">
+                                    <p class="font-semibold">{{ $student->student_name}}</p>
+                                    <p>{{ $student->year}}</p>
+                                    <p>{{ $student->student_email}}</p>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
             </div>
         </div>

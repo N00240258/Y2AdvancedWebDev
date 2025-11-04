@@ -16,4 +16,9 @@ class Course extends Model{
         'years',
         'image'
     ];
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }
