@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -78,10 +79,11 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Course $course)
+    public function show(Course $course, Student $students)
     {
         $course->load('students');
-        return view('courses.show', compact('course'));
+        $students = Student::all();
+        return view('courses.show', compact('course'), compact('students'));
 
         // return view('courses.show')->with('course', $course);
     }

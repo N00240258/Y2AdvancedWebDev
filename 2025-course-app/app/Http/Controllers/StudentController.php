@@ -22,12 +22,15 @@ class StudentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Course $course)
+    public function create(Course $course, Student $student)
     {
+        $students = Student::all();
 
-
-        if (auth()->user()->role !== 'admin') {
-            return redirect()->route('courses.index')->with('error', 'Access denied.');
+        // gets all the student and checks if there is an email already registered to a student
+        foreach($students as $student){
+            if (auth()->user()->email === $student->student_email && auth()->user()->role !== 'admin') {
+                return redirect()->route('courses.index')->with('error', 'Already Enrolled.');
+            }
         }
         return view('students.create', compact('course'));
     }
@@ -55,17 +58,6 @@ class StudentController extends Controller
 
         ]);
 
-
-        // Student::create([
-        //     'student_name' => $request->student_name,
-        //     'student_email' => $request->student_email,
-        //     'age' => $request->age,
-        //     'year' => $request->year,
-        //     'average_grade' => $request->average_grade,
-        //     'course_id' => $course->id
-        // ]);
-
-
         return redirect()->route('courses.show', $course)->with('success', 'Student enrolled successfully');
     }
 
@@ -80,24 +72,52 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Student $student)
+    public function edit(Student $student, Course $course)
     {
+        $students = Student::all();
+
+        // gets all the student and checks if there is an email already registered to a student
+        foreach($students as $student){
+            if (auth()->user()->email !== $student->student_email && auth()->user()->role !== 'admin') {
+                return view('students.edit')->with('student', $student, $course);
+            }
+        }
+
+        return redirect()->route('courses.index', compact('course'))->with('error', 'Access denied.');
 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Student $student)
+    public function update(Request $request, Student $student, Course $course)
     {
+        $request->validate([
+            'student_name' => 'required|max:512',
+            'student_email' => 'required|string|max:256',
+            'age' => 'required|integer|min:18|max:100',
+            'year' => 'required|min:1|max:4',
+            'average_grade' => 'required|decimal:1,1|max:4'
+        ]);
 
+        $student->update([
+            'student_name' => $request->input('student_name'),
+            'student_email' => $request->input('student_email'),
+            'age' => $request->input('age'),
+            'year' => $request->input('year'),
+            'average_grade' => $request->input('average_grade'),
+        ]);
+
+        return redirect()->route('courses.show', $course)->with('success', 'Student updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Student $student)
+    public function destroy(Student $student, Course $course)
     {
-        //
+        $student->delete();
+
+        return to_route("courses.show", $course)->with('success', 'Student deleted.');
     }
 }

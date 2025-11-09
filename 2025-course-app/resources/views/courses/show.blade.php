@@ -19,24 +19,107 @@
                         :courseCode="$course->courseCode"
                     />
 
-                    <a href="{{route('students.create', $course)}}" class="text-white bg-purple-400 hover:bg-purple-500 font-bold py-2 px-4 rounded">
-                        Enroll
-                    </a>
+                    {{-- Student List --}}
+                    <div class="py-6 max-w-xl mx-auto">
+                        <div class="flex justify-between">
+                            <h3 class="font-semibold text-xl text-m1 mt-3">Students List</h3>
+                            @if(auth()->user()->role === "admin")
+                                <a href="{{route('students.create', $course)}}" class="text-white bg-purple-400 hover:bg-purple-500 font-bold py-2 px-4 rounded">
+                                    Enroll
+                                </a>
+                            @else
+                                @foreach($students as $student)
+                                    @if(auth()->user()->email === $student->student_email)
+                                        @continue;
+                                    @else
+                                        <a href="{{route('students.create', $course)}}" class="text-white bg-purple-400 hover:bg-purple-500 font-bold py-2 px-4 rounded">
+                                            Enroll
+                                        </a>
 
-                    <h4 class="font-sembold text-m1 mt-3">Students</h4>
-                    @if($course->students->isEmpty())
-                        <p class="text-gray-600">No students yet.</p>
-                    @else
-                        <ul class="mt-4 space-y-4">
-                            @foreach($course->students as $student)
-                                <li class="bg-gray-100 p-4 rounded-lg">
-                                    <p class="font-semibold">{{ $student->student_name}}</p>
-                                    <p>{{ $student->year}}</p>
-                                    <p>{{ $student->student_email}}</p>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
+                                    @endif
+
+                                @endforeach
+                            @endif
+                        </div>
+
+                        @if($course->students->isEmpty())
+                            <p class="text-gray-600">No students yet.</p>
+                        @else
+                            {{-- Shows your student account at the top of the list if you have one --}}
+                            <ul class="mt-4 space-y-4">
+                                @if(auth()->user()->role === "user")
+                                    @foreach($course->students as $student)
+                                    {{-- Finds a student account with the users email and shows its info --}}
+                                        @if(auth()->user()->email === $student->student_email)
+                                        <li class="bg-gray-100 p-4 rounded-lg flex justify-between">
+                                            <div>
+                                                <div class="flex space-x-4 items-baseline">
+                                                    <p class="font-black text-lg">{{ $student->student_name}}</p>
+                                                    <p class="text-gray-600">{{ $student->student_email}}</p>
+                                                </div>
+                                                <div class="flex space-x-1">
+                                                <p>Year:<p class="font-bold">{{$student->year}}</p></p>
+                                                </div>
+                                            </div>
+
+                                            @if(auth()->user()->email === $student->student_email || auth()->user()->role === "admin")
+                                                <div class="flex space-x-4 items-center">
+                                                    <a href="{{route('students.edit', $student, $course)}}" class="text-white bg-yellow-400 hover:bg-yellow-500 font-bold py-2 px-4 rounded">
+                                                        Edit
+                                                    </a>
+
+                                                    <form action="{{route('students.destroy', $student, $course)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this student?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="text-white bg-red-600 hover:bg-red-700 font-bold py-2 px-4 rounded">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            @endif
+                                        </li>
+                                        @endif
+                                    @endforeach
+
+                                {{-- Other Students --}}
+                                <p class="font-semibold text-m1 mt-3 pt-4">Other Students</p>
+                                @endif
+
+                                @foreach($course->students as $student)
+                                    @if(auth()->user()->email !== $student->student_email)
+                                    <li class="bg-gray-100 p-4 rounded-lg flex justify-between">
+                                        <div>
+                                            <div class="flex space-x-4 items-baseline">
+                                                <p class="font-black text-lg">{{ $student->student_name}}</p>
+                                                <p class="text-gray-600">{{ $student->student_email}}</p>
+                                            </div>
+                                            <div class="flex space-x-1">
+                                            <p>Year:<p class="font-bold">{{$student->year}}</p></p>
+                                            </div>
+                                        </div>
+
+
+                                        @if(auth()->user()->email === $student->student_email || auth()->user()->role === "admin")
+                                            <div class="flex space-x-4 items-center">
+                                                <a href="{{route('students.edit', $student)}}" class="text-white bg-yellow-400 hover:bg-yellow-500 font-bold py-2 px-4 rounded">
+                                                    Edit
+                                                </a>
+
+                                                <form action="{{route('students.destroy', $student)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this student?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-white bg-red-600 hover:bg-red-700 font-bold py-2 px-4 rounded">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @endif
+                                    </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
