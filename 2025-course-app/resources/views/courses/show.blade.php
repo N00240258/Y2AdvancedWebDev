@@ -4,6 +4,13 @@
             {{__('Course')}}
         </h2>
     </x-slot>
+    <x-alert-success>
+        {{session('success')}}
+    </x-alert-success>
+    <x-alert-error>
+        {{session('error')}}
+    </x-alert-error>
+
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -23,23 +30,30 @@
                     <div class="py-6 max-w-xl mx-auto">
                         <div class="flex justify-between">
                             <h3 class="font-semibold text-xl text-m1 mt-3">Students List</h3>
-                            @if(auth()->user()->role === "admin")
+
+                            <a href="{{route('students.create', $course)}}" class="text-white bg-purple-400 hover:bg-purple-500 font-bold py-2 px-4 rounded">
+                                Enroll
+                            </a>
+                            {{-- @if(auth()->user()->role === "admin")
                                 <a href="{{route('students.create', $course)}}" class="text-white bg-purple-400 hover:bg-purple-500 font-bold py-2 px-4 rounded">
                                     Enroll
                                 </a>
                             @else
                                 @foreach($students as $student)
                                     @if(auth()->user()->email === $student->student_email)
-                                        @continue;
-                                    @else
+                                        @continue
+                                    @elseif(auth()->user()->email !== $student->student_email)
                                         <a href="{{route('students.create', $course)}}" class="text-white bg-purple-400 hover:bg-purple-500 font-bold py-2 px-4 rounded">
                                             Enroll
                                         </a>
+                                        @break
 
                                     @endif
 
+
+                                    @break;
                                 @endforeach
-                            @endif
+                            @endif --}}
                         </div>
 
                         @if($course->students->isEmpty())
@@ -86,7 +100,7 @@
                                 @endif
 
                                 @foreach($course->students as $student)
-                                    @if(auth()->user()->email !== $student->student_email)
+                                    @if(auth()->user()->email !== $student->student_email || auth()->user()->role === 'admin')
                                     <li class="bg-gray-100 p-4 rounded-lg flex justify-between">
                                         <div>
                                             <div class="flex space-x-4 items-baseline">

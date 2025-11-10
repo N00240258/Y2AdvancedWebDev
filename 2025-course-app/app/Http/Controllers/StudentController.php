@@ -29,7 +29,7 @@ class StudentController extends Controller
         // gets all the student and checks if there is an email already registered to a student
         foreach($students as $student){
             if (auth()->user()->email === $student->student_email && auth()->user()->role !== 'admin') {
-                return redirect()->route('courses.index')->with('error', 'Already Enrolled.');
+                return redirect()->route('courses.index')->with('error', 'Already enrolled in a course.');
             }
         }
         return view('students.create', compact('course'));
@@ -45,7 +45,7 @@ class StudentController extends Controller
             'student_email' => 'required|string|max:256',
             'age' => 'required|integer|min:18|max:100',
             'year' => 'required|min:1|max:4',
-            'average_grade' => 'required|decimal:1|max:4'
+            'average_grade' => 'required|decimal:1,1|max:4'
         ]);
 
         $course->students()->create([
@@ -74,23 +74,28 @@ class StudentController extends Controller
      */
     public function edit(Student $student, Course $course)
     {
-        $students = Student::all();
+        $course_id = $student->course_id;
 
+
+        if(auth()->user()->role === 'admin'){
+            return view('students.edit')->with('student', $student);
+        }
+
+        $students = Student::all();
         // gets all the student and checks if there is an email already registered to a student
         foreach($students as $student){
-            if (auth()->user()->email !== $student->student_email && auth()->user()->role !== 'admin') {
-                return view('students.edit')->with('student', $student, $course);
+            if (auth()->user()->email === $student->student_email ) {
+                return view('students.edit')->with('student', $student);
             }
         }
 
-        return redirect()->route('courses.index', compact('course'))->with('error', 'Access denied.');
-
+        return to_route('courses.show', $course_id)->with('error', 'Access denied.');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Student $student, Course $course)
+    public function update(Request $request, Student $student)
     {
         $request->validate([
             'student_name' => 'required|max:512',
@@ -108,7 +113,7 @@ class StudentController extends Controller
             'average_grade' => $request->input('average_grade'),
         ]);
 
-        return redirect()->route('courses.show', $course)->with('success', 'Student updated successfully');
+        return to_route('courses.show', $student->course_id)->with('success', 'Student updated successfully');
     }
 
     /**
@@ -116,8 +121,10 @@ class StudentController extends Controller
      */
     public function destroy(Student $student, Course $course)
     {
-        $student->delete();
+        $course_id = $student->course_id;
 
-        return to_route("courses.show", $course)->with('success', 'Student deleted.');
+        $student->delete();
+        return to_route("courses.show", $course_id)->with('success', 'Student deleted.');
+
     }
 }

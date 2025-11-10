@@ -15,14 +15,25 @@
         @enderror
     </div>
 
-    <div class="mb-4">
-        <label for="student_email" class="block text-sm text-gray-700">Email</label>
-        <input type="text" name="student_email" id="student_email" value="{{ old('student_email', $student->student_email ?? auth()->user()->email) }}" readonly required class="mt-1 block w-full border-gray-200 rounded-md shadow-sm text-gray-500 cursor-not-allowed" />
+    @if(auth()->user()->role === 'admin')
+        <div class="mb-4">
+            <label for="student_email" class="block text-sm text-gray-700">Email</label>
+            <input type="text" name="student_email" id="student_email" value="{{ old('student_email', $student->student_email ?? auth()->user()->email) }}" required class="mt-1 block w-full border-gray-300 rounded-md shadow-s"/>
 
-        @error('student_email')
-        <p class="text-sm text-red-600">{{ $message }}</p>
-        @enderror
-    </div>
+            @error('student_email')
+            <p class="text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+    @else
+        <div class="mb-4">
+            <label for="student_email" class="block text-sm text-gray-700">Email</label>
+            <input type="text" name="student_email" id="student_email" value="{{ old('student_email', $student->student_email ?? auth()->user()->email) }}" readonly required class="mt-1 block w-full border-gray-200 rounded-md shadow-sm text-gray-500 cursor-not-allowed" />
+        
+            @error('student_email')
+            <p class="text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+    @endif
 
     <div class="mb-4">
         <label for="age" class="block text-sm text-gray-700">Age</label>
@@ -57,5 +68,4 @@
         </x-primary-button>
     </div>
 
-    {{-- <input type="hidden" name="course_id" value="{{ $course->id }}"> --}}
 </form>

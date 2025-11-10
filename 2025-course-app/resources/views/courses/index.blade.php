@@ -8,7 +8,6 @@
     <x-alert-success>
         {{session('success')}}
     </x-alert-success>
-
     <x-alert-error>
         {{session('error')}}
     </x-alert-error>
