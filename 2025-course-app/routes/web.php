@@ -3,6 +3,8 @@
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TutorController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,6 +37,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
     Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
     Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy');
+
+    Route::get('/tutors', [TutorController::class, 'index'])->name('tutors.index');
+    Route::get('/tutors/create', [TutorController::class, 'create'])->name('tutors.create');
+    Route::get('/tutors/{tutor}', [TutorController::class, 'show'])->name('tutors.show');
+    Route::post('/tutors', [TutorController::class, 'store'])->name('tutors.store');
+
+    Route::get('/tutors/{tutor}/edit', [TutorController::class, 'edit'])->name('tutors.edit');
+    Route::put('/tutors/{tutor}', [TutorController::class, 'update'])->name('tutors.update');
+    Route::delete('/tutors/{tutor}', [TutorController::class, 'destroy'])->name('tutors.destroy');
+
+    Route::resource('tutors', TutorController::class)->middleware('auth');
 });
 
 require __DIR__.'/auth.php';

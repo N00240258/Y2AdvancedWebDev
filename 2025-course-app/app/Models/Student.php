@@ -8,17 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model {
     use HasFactory;
 
-    public function course(){
-        return $this->belongsTo(Course::class);
-    }
-
     protected $fillable = [
         'course_id',
         'student_name',
         'student_email',
         'age',
         'year',
-        'average_grade',
-        'enrollment'
+        'average_grade'
     ];
+
+    public function course(){
+        return $this->belongsTo(Course::class);
+    }
 }

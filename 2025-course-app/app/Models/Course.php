@@ -17,8 +17,11 @@ class Course extends Model{
         'image'
     ];
 
-    public function students()
-    {
+    public function students(){
         return $this->hasMany(Student::class);
+    }
+
+    public function tutors(){
+        return $this->belongsToMany(Tutor::class);
     }
 }

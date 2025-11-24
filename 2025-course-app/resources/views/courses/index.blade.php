@@ -42,7 +42,7 @@
                                 </a>
 
                                 {{-- delete button to delete a course which puts a confirmation pop up one the screen --}}
-                                <form action="{{route('courses.destroy', $course)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this book?');">
+                                <form action="{{route('courses.destroy', $course)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this course?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-white bg-red-600 hover:bg-red-700 font-bold py-2 px-4 rounded">

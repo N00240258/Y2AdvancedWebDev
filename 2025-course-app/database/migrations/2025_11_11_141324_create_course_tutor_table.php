@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('course_tutor', function (Blueprint $table) {
             $table->id();
-            // cascade: If the course is delete/removed then so will the enrolled students
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
-            $table->text('student_name');
-            $table->string('student_email', length:100);
-            $table->integer('age');
-            $table->integer('year');
-            $table->decimal('average_grade', 2, 1);
+            $table->foreignId('tutor_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('course_tutor');
     }
 };

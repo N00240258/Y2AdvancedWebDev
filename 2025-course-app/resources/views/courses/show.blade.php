@@ -26,6 +26,29 @@
                         :courseCode="$course->courseCode"
                     />
 
+                    <div class="py-6 max-w-xl mx-auto">
+
+                            <h3 class="font-semibold text-xl text-m1 mt-3">Tutor List</h3>
+                            @if($course->tutors->isEmpty())
+                                <p class="text-gray-600">No tutor yet.</p>
+                            @else
+                                <ul class="mt-4 space-y-4">
+                                    @foreach($course->tutors as $tutor)
+                                        <li class="bg-gray-100 p-4 rounded-lg">
+                                            <div class="flex space-x-4 items-baseline">
+                                                <p class="font-black text-lg">{{ $tutor->tutor_name}}</p>
+                                                <p class="text-gray-600">{{ $tutor->tutor_email}}</p>
+                                            </div>
+                                            <div class="flex space-x-1">
+                                                <p>Years of Experience:<p class="font-bold">{{$tutor->years_of_experience}}</p></p>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
+                    </div>
+
                     {{-- Student List --}}
                     <div class="py-6 max-w-xl mx-auto">
                         <div class="flex justify-between">
@@ -34,26 +57,6 @@
                             <a href="{{route('students.create', $course)}}" class="text-white bg-purple-400 hover:bg-purple-500 font-bold py-2 px-4 rounded">
                                 Enroll
                             </a>
-                            {{-- @if(auth()->user()->role === "admin")
-                                <a href="{{route('students.create', $course)}}" class="text-white bg-purple-400 hover:bg-purple-500 font-bold py-2 px-4 rounded">
-                                    Enroll
-                                </a>
-                            @else
-                                @foreach($students as $student)
-                                    @if(auth()->user()->email === $student->student_email)
-                                        @continue
-                                    @elseif(auth()->user()->email !== $student->student_email)
-                                        <a href="{{route('students.create', $course)}}" class="text-white bg-purple-400 hover:bg-purple-500 font-bold py-2 px-4 rounded">
-                                            Enroll
-                                        </a>
-                                        @break
-
-                                    @endif
-
-
-                                    @break;
-                                @endforeach
-                            @endif --}}
                         </div>
 
                         @if($course->students->isEmpty())
@@ -72,7 +75,7 @@
                                                     <p class="text-gray-600">{{ $student->student_email}}</p>
                                                 </div>
                                                 <div class="flex space-x-1">
-                                                <p>Year:<p class="font-bold">{{$student->year}}</p></p>
+                                                    <p>Year:<p class="font-bold">{{$student->year}}</p></p>
                                                 </div>
                                             </div>
 
