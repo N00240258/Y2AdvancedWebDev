@@ -62,7 +62,7 @@
         @error('courses')
         <p class="text-sm text-red-600">{{ $message }}</p>
         @enderror
-d    </div>
+    </div>
     <div>
         <x-primary-button>
             {{ isset($tutor) ? 'Update tutor' : 'Add tutor' }}

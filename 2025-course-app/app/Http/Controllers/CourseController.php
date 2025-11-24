@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Course;
@@ -9,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facade\Storage;
 
+
+
 class CourseController extends Controller
 {
     /**
@@ -16,15 +17,30 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
+
         // gets the content from the search box and tells the database to get the titles that are similar to the phrase typed in or displays all the courses if nothing is there
         $search = $request->input("search");
+
+
+
         if($search){
             $courses = Course::where("title", "like", "%" . $search . "%")->get() ;
         }else {
-            $courses = Course::all();
+            if($request->has('namesAsc')){
+                $courses = Course::orderBy('title')->get();
+            } elseif ($request->has('namesDesc')){
+                $courses = Course::orderBy('title', 'desc')->get();
+            } elseif ($request->has('pointsAsc')){
+                $courses = Course::orderBy('points')->get();
+            } elseif ($request->has('pointsDesc')){
+                $courses = Course::orderBy('points', 'desc')->get();
+            } else {
+                $courses = Course::all();
+            }
         }
 
         return view("courses.index", compact("courses"));
+
     }
 
     /**

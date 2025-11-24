@@ -32,8 +32,9 @@
                             @if($course->tutors->isEmpty())
                                 <p class="text-gray-600">No tutor yet.</p>
                             @else
-                                <ul class="mt-4 space-y-4">
+                                <ul class="mt-4 space-x-4">
                                     @foreach($course->tutors as $tutor)
+                                    <a href="{{route("tutors.show", $tutor) }}">
                                         <li class="bg-gray-100 p-4 rounded-lg">
                                             <div class="flex space-x-4 items-baseline">
                                                 <p class="font-black text-lg">{{ $tutor->tutor_name}}</p>
@@ -43,6 +44,7 @@
                                                 <p>Years of Experience:<p class="font-bold">{{$tutor->years_of_experience}}</p></p>
                                             </div>
                                         </li>
+                                    </a>
                                     @endforeach
                                 </ul>
                             @endif
