@@ -31,23 +31,29 @@
                         <div class="border p-2 rounded-lg shadow-lg hover:bg-gray-200 hover:shadow-xl ">
                             <div class="grid gap-2">
                                 <a href="{{route("tutors.show", $tutor) }}">
-                                    <x-tutor-card :tutor_name="$tutor->tutor_name"  :tutor_email="$tutor->tutor_email" :years_of_experience="$tutor->years_of_experience"/>
+                                    <x-tutor-card
+                                        :tutor_name="$tutor->tutor_name"
+                                        :tutor_email="$tutor->tutor_email"
+                                        :years_of_experience="$tutor->years_of_experience"
+                                    />
                                 </a>
 
-                                <div class="flex justify-between ">
+                                @if (auth()->user()->role === "admin")
+                                    <div class="flex justify-between ">
                                     {{-- link to the course edit form --}}
-                                    <a href="{{route('tutors.edit', $tutor)}}" class="text-black bg-yellow-400 hover:bg-yellow-500 font-bold py-2 px-4 rounded">
-                                        Edit
-                                    </a>
+                                        <a href="{{route('tutors.edit', $tutor)}}" class="text-black bg-yellow-400 hover:bg-yellow-500 font-bold py-2 px-4 rounded">
+                                            Edit
+                                        </a>
 
-                                    <form action="{{route('tutors.destroy', $tutor)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this tutor?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-white bg-red-600 hover:bg-red-700 font-bold py-2 px-4 rounded">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </div>
+                                        <form action="{{route('tutors.destroy', $tutor)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this tutor?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-white bg-red-600 hover:bg-red-700 font-bold py-2 px-4 rounded">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         @endforeach

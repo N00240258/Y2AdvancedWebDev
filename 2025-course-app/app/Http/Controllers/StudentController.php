@@ -82,7 +82,7 @@ class StudentController extends Controller
         }
 
         $students = Student::all();
-        // gets all the student and checks if there is an email already registered to a student
+        // gets all the student and checks if there is an email already registered to a student if there is then it will send you to the edit page
         foreach($students as $student){
             if (auth()->user()->email === $student->student_email ) {
                 return view('students.edit')->with('student', $student);
@@ -121,6 +121,7 @@ class StudentController extends Controller
      */
     public function destroy(Student $student, Course $course)
     {
+        // saves the students course in a variable so that it will bring you back to the course you are already on when you delete a student
         $course_id = $student->course_id;
 
         $student->delete();

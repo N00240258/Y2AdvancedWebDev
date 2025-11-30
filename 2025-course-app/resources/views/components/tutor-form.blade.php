@@ -45,6 +45,7 @@
     <div class="mb-4">
         <label for="courses" class="block text-sm text-gray-700">Courses tutoring</label>
         <ul>
+            {{-- loads each course in the database as a checkbox --}}
             @foreach ($courses as $course)
                 <li class="flex gap-2">
                     <input
@@ -52,6 +53,7 @@
                     name="courses[]"
                     id="courses"
                     value="{{ old('courses', $course->id ?? '') }}"
+                    {{-- if the user is editing an tutor it will get all the courses that the tutor is linked to and then select them on the website --}}
                     {{ isset($tutor) && $tutor->courses->contains($course->id) ? 'checked' : '' }}
                     class="mt-1 block border-gray-300 rounded-md shadow-sm" />
                     {{$course->title}}

@@ -17,6 +17,7 @@ class Student extends Model {
         'average_grade'
     ];
 
+    // this functions links this table back to the courses table
     public function course(){
         return $this->belongsTo(Course::class);
     }

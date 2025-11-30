@@ -15,25 +15,23 @@
         @enderror
     </div>
 
-    @if(auth()->user()->role === 'admin')
+    {{-- when the user goes to enroll as a student it will set the email field to be there current email used when logging in this is used for verification when entering the edit for or reentering the creation form --}}
+
         <div class="mb-4">
             <label for="student_email" class="block text-sm text-gray-700">Email</label>
-            <input type="text" name="student_email" id="student_email" value="{{ old('student_email', $student->student_email ?? auth()->user()->email) }}" required class="mt-1 block w-full border-gray-300 rounded-md shadow-s"/>
+            {{-- if the current users role is not an admin it will lock the email field to stop the user from changing the email but if the user is an avmin --}}
+
+            @if(auth()->user()->role === 'admin')
+                <input type="text" name="student_email" id="student_email" value="{{ old('student_email', $student->student_email ?? auth()->user()->email) }}" required class="mt-1 block w-full border-gray-300 rounded-md shadow-s"/>
+            @else
+                <input type="text" name="student_email" id="student_email" value="{{ old('student_email', $student->student_email ?? auth()->user()->email) }}" readonly required class="mt-1 block w-full border-gray-200 rounded-md shadow-sm text-gray-500 cursor-not-allowed" />
+            @endif
 
             @error('student_email')
             <p class="text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
-    @else
-        <div class="mb-4">
-            <label for="student_email" class="block text-sm text-gray-700">Email</label>
-            <input type="text" name="student_email" id="student_email" value="{{ old('student_email', $student->student_email ?? auth()->user()->email) }}" readonly required class="mt-1 block w-full border-gray-200 rounded-md shadow-sm text-gray-500 cursor-not-allowed" />
-        
-            @error('student_email')
-            <p class="text-sm text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
-    @endif
+
 
     <div class="mb-4">
         <label for="age" class="block text-sm text-gray-700">Age</label>

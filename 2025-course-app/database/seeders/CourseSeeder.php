@@ -96,6 +96,7 @@ class CourseSeeder extends Seeder{
             ]
         ];
 
+        // gets all the data entered in the array and then attaches the tutors data to the pivot table
         foreach($courses as $courseData){
             $tutors = $courseData['tutors'];
             unset($courseData['tutors']);

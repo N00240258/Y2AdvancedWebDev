@@ -37,6 +37,7 @@ class TutorController extends Controller
             return redirect()->route('tutors.index')->with('error', 'Access denied.');
         }
 
+        // loads all the courses in the create so that it can display them all when adding courses to tutors
         $courses = Course::all();
         return view('tutors.create', compact('courses'));
     }
@@ -61,6 +62,7 @@ class TutorController extends Controller
 
         $tutor = Tutor::create($validated);
 
+        // if the tutor has any courses selected it will then connect them through the pivot table in the database automatically for however many that have been selected
         if ($request->has('courses')) {
             $tutor->courses()->attach($request->courses);
         }
@@ -83,6 +85,7 @@ class TutorController extends Controller
     public function edit(Tutor $tutor)
     {
         $courses = Course::all();
+        // if the tutor has any courses selected it will get the id from the courses and put the into tutorCourses where the creation form can know what courses have already been selected
         $tutorCourses = $tutor->courses->pluck('id')->toArray();
         return view('tutors.edit', compact('tutor', 'courses', 'tutorCourses'));
     }
@@ -107,17 +110,21 @@ class TutorController extends Controller
             'years_of_experience' => $request->years_of_experience,
         ]);
 
+        // if the tutor has any courses selected it will update the pivot table to add any new selected courses
         if ($request->has('courses')) {
             $tutor->courses()->sync($request->courses);
         }
 
-        return redirect()->route('tutors.index')->with('success', 'Tutor created successfully');    }
+        return redirect()->route('tutors.index')->with('success', 'Tutor created successfully');
+    }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Tutor $tutor)
     {
+        // detaches all the courses connected to the tutor in the pivot table before deletine so there isnt a lot of unnecessary data in the pivot table
+
         $tutor->courses()->detach();
         $tutor->delete();
 

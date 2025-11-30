@@ -1,9 +1,3 @@
-<?php
-
-use App\Models\Course;
-$courses = Course::orderBy('title')->get();
-
-?>
 
 <x-app-layout>
     <x-slot name="header">
@@ -30,7 +24,7 @@ $courses = Course::orderBy('title')->get();
                         :age="$tutor->age"
                         :years_of_experience="$tutor->years_of_experience"
                     />
-
+                    
                     <div class="py-6 max-w-xl mx-auto">
                         <h3 class="font-semibold text-xl text-m1 mt-3">Course List</h3>
 

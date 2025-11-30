@@ -10,6 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h3 class="font-semibold text-lg mb-4">Add a new tutor</h3>
+                    {{-- loads the tutor edit page along with all the courses for the list of checkboxes --}}
                     <x-tutor-form
                         :action="route('tutors.store', compact('courses'))"
                         :method="'POST'"

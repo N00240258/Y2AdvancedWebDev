@@ -26,6 +26,7 @@ class CourseController extends Controller
         if($search){
             $courses = Course::where("title", "like", "%" . $search . "%")->get() ;
         }else {
+            // checks if the root has any additional information attached to it and if it does it will then put all the courses in the course array in the order specified by what is sent with the route
             if($request->has('namesAsc')){
                 $courses = Course::orderBy('title')->get();
             } elseif ($request->has('namesDesc')){
@@ -48,6 +49,7 @@ class CourseController extends Controller
      */
     public function create()
     {
+        // if the current users role is not admin it will send them back to the index page
         if (auth()->user()->role !== 'admin') {
             return redirect()->route('courses.index')->with('error', 'Access denied.');
         }
@@ -97,6 +99,8 @@ class CourseController extends Controller
      */
     public function show(Course $course, Student $students)
     {
+        // loads and gets all students connected to the currently shown course through the database to show all students in the course
+
         $course->load('students');
         $students = Student::all();
         return view('courses.show', compact('course'), compact('students'));

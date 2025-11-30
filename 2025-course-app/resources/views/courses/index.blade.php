@@ -19,6 +19,8 @@
                     <div class="flex justify-between items-center pb-6">
                         <h3 style="font-size: 1.5rem" class="font-bold text-xl mb-4"> List of Courses:</h3>
                         <div class="flex space-x-4">
+
+                            {{-- sort dropdown --}}
                             <x-dropdown>
                                 <x-slot name="trigger">
                                     <button class="btn border border-slate-700 rounded-lg px-5 py-2.5 me-2 mb-2">
@@ -29,6 +31,7 @@
                                     </button>
                                 </x-slot>
                                 <div class="text-gray-600 text-sm truncate px-4 py-2">
+                                    {{-- clicking on this will reroute to courses.index with something attached to it. the CourseController controller will then check if or what is attached to it so then it knows what way to put the data into the course array--}}
                                     <a href="{{route('courses.index', 'namesAsc')}}">
                                         <x-dropdown-link class="flex items-center">
                                             <p>Name (A-Z)</p>
@@ -61,7 +64,9 @@
                             </form>
                         </div>
                     </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {{-- if the sort dropdown has been used then it will load the courses in a different way --}}
                         @foreach($courses as $course)
                             <div class="border py-2 rounded-lg shadow-lg hover:bg-gray-200 hover:shadow-xl ">
                                 {{-- links the course card/border to the show --}}
@@ -70,6 +75,7 @@
                                     <x-course-card :title="$course->title"  :image="$course->image"/>
                                 </a>
 
+                                {{-- checks if the current user is an admin to display the edit and delete buttons --}}
                                 @if(auth()->user()->role === "admin")
                                     <div class="px-6 pb-3 flex justify-between ">
                                         {{-- link to the course edit form --}}

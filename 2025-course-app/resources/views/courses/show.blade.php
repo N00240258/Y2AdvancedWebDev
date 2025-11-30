@@ -29,11 +29,13 @@
                     <div class="py-6 max-w-xl mx-auto">
 
                             <h3 class="font-semibold text-xl text-m1 mt-3">Tutor List</h3>
+                            {{-- checks if there are any tutors assigned to the course --}}
                             @if($course->tutors->isEmpty())
                                 <p class="text-gray-600">No tutor yet.</p>
                             @else
                                 <ul class="mt-4 space-x-4">
                                     @foreach($course->tutors as $tutor)
+                                    {{-- this allows you to click on the tutor to go to there show to see what other courses they teach --}}
                                     <a href="{{route("tutors.show", $tutor) }}">
                                         <li class="bg-gray-100 p-4 rounded-lg">
                                             <div class="flex space-x-4 items-baseline">
@@ -64,7 +66,7 @@
                         @if($course->students->isEmpty())
                             <p class="text-gray-600">No students yet.</p>
                         @else
-                            {{-- Shows your student account at the top of the list if you have one --}}
+                            {{-- if you are currently logged in as a user and a student it will show your student log in at the top of the page before showing all the other students--}}
                             <ul class="mt-4 space-y-4">
                                 @if(auth()->user()->role === "user")
                                     @foreach($course->students as $student)
@@ -81,6 +83,7 @@
                                                 </div>
                                             </div>
 
+                                            {{-- checks if the users email is the same as the student email which then shows edit and delete just for your student info and noone else--}}
                                             @if(auth()->user()->email === $student->student_email || auth()->user()->role === "admin")
                                                 <div class="flex space-x-4 items-center">
                                                     <a href="{{route('students.edit', $student, $course)}}" class="text-white bg-yellow-400 hover:bg-yellow-500 font-bold py-2 px-4 rounded">
@@ -105,6 +108,7 @@
                                 @endif
 
                                 @foreach($course->students as $student)
+                                {{-- while loading all the other students the code checks to make sure the student it loads does not have the same email as the user so it doesnt show double data --}}
                                     @if(auth()->user()->email !== $student->student_email || auth()->user()->role === 'admin')
                                     <li class="bg-gray-100 p-4 rounded-lg flex justify-between">
                                         <div>
@@ -118,6 +122,7 @@
                                         </div>
 
 
+                                        {{-- this shows all the other students but only shows the edit and delete buttons for the admins--}}
                                         @if(auth()->user()->email === $student->student_email || auth()->user()->role === "admin")
                                             <div class="flex space-x-4 items-center">
                                                 <a href="{{route('students.edit', $student)}}" class="text-white bg-yellow-400 hover:bg-yellow-500 font-bold py-2 px-4 rounded">

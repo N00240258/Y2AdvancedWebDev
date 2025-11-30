@@ -16,6 +16,7 @@ class Tutor extends Model
         'years_of_experience'
     ];
 
+    // links this table back to the courses table and the pivot table inbetween
     public function courses(){
         return $this->belongsToMany(Course::class);
     }

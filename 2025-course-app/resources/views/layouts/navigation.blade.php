@@ -21,6 +21,8 @@
                     <x-nav-link :href="route('tutors.index')" :active="request()->routeIs('tutors.index')">
                         {{ __('Tutors') }}
                     </x-nav-link>
+
+                    {{-- only allows the admin to see the creates on the navbar --}}
                     @if(auth()->user()->role === "admin")
                     <x-nav-link :href="route('courses.create')" :active="request()->routeIs('courses.create')">
                         {{ __('Create Course') }}
