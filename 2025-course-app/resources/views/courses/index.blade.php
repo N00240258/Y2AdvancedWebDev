@@ -30,7 +30,7 @@
                                         </div>
                                     </button>
                                 </x-slot>
-                                <div class="text-gray-600 text-sm truncate px-4 py-2">
+
                                     {{-- clicking on this will reroute to courses.index with something attached to it. the CourseController controller will then check if or what is attached to it so then it knows what way to put the data into the course array--}}
                                     <a href="{{route('courses.index', 'namesAsc')}}">
                                         <x-dropdown-link class="flex items-center">
